@@ -95,9 +95,15 @@ func (s *service) GetContainer(ctx context.Context, req *container.GetContainerR
 			Value: split[1],
 		})
 	}
+	status := containerJSON.State.Status
+	if containerJSON.State.Status == "running" || containerJSON.State.Status == "exited" && containerJSON.State.ExitCode == 0 {
+		status = containerJSON.State.Status
+	} else if containerJSON.State.Status == "exited" {
+		status = fmt.Sprintf("failed: %s, exit_code: %d", containerJSON.State.Error, containerJSON.State.ExitCode)
+	}
 	return &container.Container{
 		Name:        containerJSON.Name,
-		Status:      containerJSON.State.Status,
+		Status:      status,
 		EnvVars:     envVars,
 		ContainerId: containerJSON.ID,
 	}, nil
