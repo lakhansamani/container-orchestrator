@@ -8,4 +8,5 @@ RUN go build && \
 FROM alpine:latest
 WORKDIR /root/
 COPY --from=builder /app/container-orchestrator .
+EXPOSE 5600
 ENTRYPOINT [ "./container-orchestrator" ]
