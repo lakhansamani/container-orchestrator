@@ -2,6 +2,7 @@ package memorystore
 
 import (
 	"errors"
+	"os"
 
 	log "github.com/rs/zerolog/log"
 
@@ -13,7 +14,11 @@ import (
 func NewMemoryStore(redisURL string) (providers.MemoryStoreProvider, error) {
 	// If redis url is not set throw an error
 	if redisURL == "" {
-		return nil, errors.New("redis url is not set")
+		// Get the url from env
+		redisURL = os.Getenv("REDIS_URL")
+		if redisURL == "" {
+			return nil, errors.New("redis url is not set")
+		}
 	}
 	log.Info().Msg("Using redis store to save sessions")
 	memoryStoreProvider, err := redis.NewRedisProvider(redisURL)
