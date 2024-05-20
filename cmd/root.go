@@ -44,7 +44,7 @@ func init() {
 	// Server flags
 	f.StringVar(&rootArgs.server.Host, "host", "0.0.0.0", "Host interface to listen on")
 	f.IntVar(&rootArgs.server.GRPCPort, "grpc-port", 5600, "Port to listen on for GRPC requests")
-	f.StringVar(&rootArgs.redisURL, "redis-url", "redis://localhost:6397", "URL of the Redis server")
+	f.StringVar(&rootArgs.redisURL, "redis-url", "", "URL of the Redis server")
 }
 
 // Run the service
